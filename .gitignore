@@ -1,4 +1,31 @@
+# ======= #
+# ENV #
+# ======= #
 venv/
 env/
 
+# ======= #
+# Editors #
+# ======= #
+*~
+*.swp
+.project
+.classpath
+.settings
+.metadata
+.idea
+.vscode
+.vs
+
+# ====== #
+# Python #
+# ====== #
+__pycache__/
+.pytest_cache/
+*.py[cod]
+
+# ======================== #
+# Personal/Project choices #
+# ======================== #
+media/
 .idea/
