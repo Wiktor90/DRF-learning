@@ -32,6 +32,7 @@ media/
 .idea/
 snippets/__pycache__/
 tutorial/__pycache__/
+.__pycache__/
 
 # Django stuff:
 *.log

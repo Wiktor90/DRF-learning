@@ -2,15 +2,16 @@ from rest_framework.reverse import reverse
 from rest_framework import renderers
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import generics
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from django.contrib.auth.models import User
 
 from snippets.models import Snippet
 from snippets.permissions import IsOwnerOrReadOnly
 from snippets.serializers import SnippetSerializer
 from snippets.serializers import UserSerializer
 
-from rest_framework import generics
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from django.contrib.auth.models import User
 
 
 @api_view(['GET'])
@@ -21,20 +22,28 @@ def api_root(request, format=None):
     })
 
 
-class UserList(generics.ListAPIView):
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    List all Users
+    List all Users. Retrieve user instance
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
 
-class UserDetail(generics.RetrieveAPIView):
-    """
-    Retrieve or user instance
-    """
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+# class UserList(generics.ListAPIView):
+#     """
+#     List all Users
+#     """
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+#
+#
+# class UserDetail(generics.RetrieveAPIView):
+#     """
+#     Retrieve or user instance
+#     """
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
 
 
 class SnippetList(generics.ListCreateAPIView):
