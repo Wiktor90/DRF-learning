@@ -17,7 +17,7 @@ from django.contrib.auth.models import User
 def api_root(request, format=None):
     return Response({
         "users": reverse("user-list", request=request, format=format),
-        "snipets": reverse("snipets-list", request=request, format=format),
+        "snippets": reverse("snippet-list", request=request, format=format),
     })
 
 

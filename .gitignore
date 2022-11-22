@@ -17,15 +17,22 @@ env/
 .vscode
 .vs
 
-# ====== #
+# ====== #git check-ignore -v -- afile
 # Python #
 # ====== #
 __pycache__/
 .pytest_cache/
 *.py[cod]
+*.pyc
 
 # ======================== #
 # Personal/Project choices #
 # ======================== #
 media/
 .idea/
+snippets/__pycache__/
+tutorial/__pycache__/
+
+# Django stuff:
+*.log
+*.pot
