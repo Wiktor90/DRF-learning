@@ -9,12 +9,18 @@ class Author(models.Model):
     email = models.EmailField(max_length=256)
     nick = models.CharField(max_length=64, blank=True),
 
+    def __str__(self):
+        return f"{self.name} {self.last_name}"
+
 
 class Post(models.Model):
     author = models.ForeignKey(Author, related_name="author", on_delete=models.CASCADE)
     title = models.CharField(max_length=256),
     text = models.TextField(blank=True),
     created_at = models.DateTimeField(default=datetime.now, blank=True)
+
+    def __str__(self):
+        return f"{self.title}"
 
 
 class Comment(models.Model):
