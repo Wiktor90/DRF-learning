@@ -4,7 +4,7 @@ from blog.models import Author, Post, Comment
 
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
-    list_display = ()
+    list_display = ("name", "last_name", "email", "nick")
     # list_filter = ('status', 'due_back')
     #
     # fieldsets = (
@@ -19,9 +19,9 @@ class AuthorAdmin(admin.ModelAdmin):
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("title", "author", "text", "created_at")
 
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("post", "author", "text")
