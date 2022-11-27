@@ -24,4 +24,8 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ("post", "author", "text")
+    list_display = ("title", "author", "text",)
+
+    @admin.display(ordering="post__title")
+    def title(self, obj):
+        return obj.post.title
