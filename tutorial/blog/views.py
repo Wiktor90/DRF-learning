@@ -1,12 +1,16 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from rest_framework import generics
 
-# Create your views here.
+class AuthorViewSet(generics.RetrieveUpdateAPIView):
+    pass
+
 # Widok:
 
 # AUTHOR
-# /author - autor list + coment_count / post_count - ile czego pisal
+# GET /author - autor list + coment_count / post_count - ile czego pisal
 # albo serwis w widoku albo method field w serializerze ?
-# /author/<int:pk> - to samo tylko details view
+# GET /author/<int:pk> - to samo tylko details view
+# POST /author/<int:pk> - required tylko email
 
 # POST
 # /author/<int:pk>/post - wszystkie posty per autor. Dodac licznik komentarzy "comments"
