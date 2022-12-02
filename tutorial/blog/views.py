@@ -1,8 +1,16 @@
 from rest_framework import viewsets
 from rest_framework import generics
 
-class AuthorViewSet(generics.RetrieveUpdateAPIView):
-    pass
+from blog.models import Author
+from blog.serializers import AuthorSerializer
+
+class AuthorViewSet(
+    generics.ListCreateAPIView,
+    generics.RetrieveUpdateAPIView,
+    viewsets.GenericViewSet,
+):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
 
 # Widok:
 
