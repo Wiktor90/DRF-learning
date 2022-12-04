@@ -1,3 +1,4 @@
 django
 djangorestframework
 pygments
+ipython==8.7.0

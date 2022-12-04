@@ -7,4 +7,3 @@ class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
         fields = ["name", "last_name", "email", "nick", "post_number", "comments_number"]
-        read_only_fields = ["post_number", "comments_number",]
