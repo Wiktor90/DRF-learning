@@ -34,6 +34,10 @@ class Post(models.Model):
     text = models.TextField(blank=True, default="")
     created_at = models.DateTimeField(default=datetime.now, blank=True)
 
+    @property
+    def comments_number(self):
+        return self.comments.count()
+
     def __str__(self, *args, **kwargs):
         return f"{self.title}"
 

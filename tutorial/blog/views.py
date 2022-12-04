@@ -1,8 +1,10 @@
 from rest_framework import viewsets
 from rest_framework import generics
+from rest_framework.response import Response
 
-from blog.models import Author
+from blog.models import Author, Post
 from blog.serializers import AuthorSerializer
+from blog.serializers import PostSerializer
 
 
 class AuthorViewSet(
@@ -13,6 +15,17 @@ class AuthorViewSet(
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
 
+
+class PostView(
+    generics.ListCreateAPIView,
+):
+    serializer_class = PostSerializer
+
+    def get_queryset(self):
+        author_pk = self.kwargs["pk"]
+        return Post.objects.filter(author=author_pk)
+
+
 # Widok:
 
 # AUTHOR
@@ -22,8 +35,8 @@ class AuthorViewSet(
 # [+] POST /author/<int:pk> - required tylko email
 
 # POST
-# /author/<int:pk>/post - wszystkie posty per autor. Dodac licznik komentarzy "comments"
-# /author/<int:pk>/post/<post_pk> - konkretny post danego autora. Dodac licznik komentarzy "comments"
+# GET /author/<int:pk>/post - wszystkie posty per autor. Dodac licznik komentarzy "comments"
+# GET /author/<int:pk>/post/<post_pk> - konkretny post danego autora. Dodac licznik komentarzy "comments"
 # *zcustomizowac get_object() w widoku
 # /recent/post - wyswietla 5 ostatnich postow. Dodac tu "recent_comments" - 2 najnowsze komentarze posta
 
