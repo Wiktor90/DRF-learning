@@ -16,10 +16,10 @@ class AuthorViewSet(
 # Widok:
 
 # AUTHOR
-# GET /author - autor list + coment_count / post_count - ile czego pisal
-# albo serwis w widoku albo method field w serializerze ?
-# GET /author/<int:pk> - to samo tylko details view
-# POST /author/<int:pk> - required tylko email
+# [+] GET /author - autor list + coment_count / post_count - ile czego pisal
+# [+] method field lub property na modelu
+# [+] GET /author/<int:pk> - to samo tylko details view
+# [+] POST /author/<int:pk> - required tylko email
 
 # POST
 # /author/<int:pk>/post - wszystkie posty per autor. Dodac licznik komentarzy "comments"
