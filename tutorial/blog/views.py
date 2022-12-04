@@ -23,7 +23,7 @@ class PostView(
 
     def get_queryset(self):
         author_pk = self.kwargs["pk"]
-        return Post.objects.filter(author=author_pk)
+        return Post.objects.filter(author=author_pk).order_by("-created_at")
 
 
 # Widok:

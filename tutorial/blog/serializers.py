@@ -10,6 +10,9 @@ class AuthorSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
+    author = serializers.StringRelatedField(many=False, read_only=True)
+    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+
     class Meta:
         model = Post
         fields = ["author", "title", "text", "created_at", "comments_number"]
