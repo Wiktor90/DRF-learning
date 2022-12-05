@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from rest_framework import generics
+from rest_framework import mixins
 from rest_framework.response import Response
 
 from blog.models import Author, Post
@@ -17,13 +18,22 @@ class AuthorViewSet(
 
 
 class PostView(
-    generics.ListCreateAPIView,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    viewsets.GenericViewSet
 ):
     serializer_class = PostSerializer
+    # lookup_url_kwarg = "post_pk"
 
     def get_queryset(self):
-        author_pk = self.kwargs["pk"]
+        author_pk = self.kwargs["author_pk"]
         return Post.objects.filter(author=author_pk).order_by("-created_at")
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        #zcustomizuj serializer zeby serializowal wszystkie nested comenty.
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
 
 # Widok:
@@ -37,7 +47,7 @@ class PostView(
 # POST
 # GET /author/<int:pk>/post - wszystkie posty per autor. Dodac licznik komentarzy "comments"
 # GET /author/<int:pk>/post/<post_pk> - konkretny post danego autora. Dodac licznik komentarzy "comments"
-# *zcustomizowac get_object() w widoku
+# *zcustomizowac get_object() w widoku. Inny serializer do widoku postu bo ma wyswietlac komenty.
 # /recent/post - wyswietla 5 ostatnich postow. Dodac tu "recent_comments" - 2 najnowsze komentarze posta
 
 # COMMENTS
