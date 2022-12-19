@@ -17,23 +17,40 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ["author", "title", "text", "created_at", "comments_number", "recent_comments"]
+        fields = [
+            "author",
+            "title",
+            "text",
+            "created_at",
+            "comments_number",
+            "recent_comments",
+        ]
 
     @staticmethod
     def get_recent_comments(obj: Post):
-        return obj.comments.all().values("text")[:2]
+        recent = obj.comments.all().order_by("-created_at")[:2]
+        return CommentSerializer(recent, many=True).data
 
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
+    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", allow_null=True)
 
     class Meta:
         model = Comment
-        fields = ["author", "text",]
+        fields = ["author", "text", "created_at",]
 
 
 class PostDetailsSerializer(PostSerializer):
     comments = CommentSerializer(many=True)
 
     class Meta(PostSerializer.Meta):
-        fields = PostSerializer.Meta.fields + ["comments",]
+        fields = [
+            "author",
+            "title",
+            "text",
+            "created_at",
+            "comments_number",
+            "comments",
+        ]
+

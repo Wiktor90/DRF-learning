@@ -27,7 +27,9 @@ class PostView(
 
     def get_queryset(self):
         author_pk = self.kwargs["author_pk"]
-        return Post.objects.filter(author=author_pk).order_by("-created_at")
+        return Post.objects.filter(
+            author=author_pk
+        ).order_by("-created_at").select_related("author").prefetch_related("comments")
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
@@ -48,6 +50,13 @@ class PostView(
         author = Author.objects.get(pk=author_pk)
         serializer.save(author=author)
 
+class RecentPostView(generics.ListAPIView, viewsets.GenericViewSet):
+    # Display 5 last Post with recent 2 comments
+    serializer_class = PostSerializer
+
+    def get_queryset(self):
+        queryset = Post.objects.all().order_by("-created_at").select_related("author").prefetch_related("comments")[:5]
+        return queryset
 
 # Widok:
 
@@ -63,7 +72,7 @@ class PostView(
 # [+] przey GET datal:
 # zcustomizowac retreive() w widoku. Inny serializer do widoku postu bo ma wyswietlac komenty.
 
-# /recent/post - wyswietla 5 ostatnich postow. Dodac tu "recent_comments" - 2 najnowsze komentarze posta
+# [+] /recent/post - wyswietla 5 ostatnich postow. Dodac tu "recent_comments" - 2 najnowsze komentarze posta
 
 # COMMENTS
 # /comment - wszystkie komentarz - post wyswietlac po tytule i autora po name.

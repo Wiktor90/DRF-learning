@@ -3,10 +3,12 @@ from django.urls import path, include
 
 from blog.views import AuthorViewSet
 from blog.views import PostView
+from blog.views import RecentPostView
 
 router = DefaultRouter()
 
 router.register("author", AuthorViewSet, basename="author")
+router.register("recent/posts", RecentPostView, basename="recent-posts")
 # router.register("author/<int:author_pk>/posts/", PostView, basename="post")
 
 urlpatterns = [
