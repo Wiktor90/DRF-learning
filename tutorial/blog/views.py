@@ -3,8 +3,8 @@ from rest_framework import generics
 from rest_framework import mixins
 from rest_framework.response import Response
 
-from blog.models import Author, Post
-from blog.serializers import AuthorSerializer, PostDetailsSerializer
+from blog.models import Author, Post, Comment
+from blog.serializers import AuthorSerializer, PostDetailsSerializer, CommentsWithPostSerializer
 from blog.serializers import PostSerializer
 
 
@@ -50,6 +50,7 @@ class PostView(
         author = Author.objects.get(pk=author_pk)
         serializer.save(author=author)
 
+
 class RecentPostView(generics.ListAPIView, viewsets.GenericViewSet):
     # Display 5 last Post with recent 2 comments
     serializer_class = PostSerializer
@@ -57,6 +58,16 @@ class RecentPostView(generics.ListAPIView, viewsets.GenericViewSet):
     def get_queryset(self):
         queryset = Post.objects.all().order_by("-created_at").select_related("author").prefetch_related("comments")[:5]
         return queryset
+
+
+class AuthorsCommentView(generics.ListAPIView):
+    serializer_class = CommentsWithPostSerializer
+
+    def get_queryset(self):
+        author_pk = self.kwargs["author_pk"]
+        return Comment.objects.filter(
+            author=author_pk
+        ).order_by("-created_at").select_related("author").prefetch_related("post")
 
 # Widok:
 

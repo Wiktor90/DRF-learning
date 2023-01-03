@@ -1,7 +1,7 @@
 from rest_framework.routers import DefaultRouter
 from django.urls import path, include
 
-from blog.views import AuthorViewSet
+from blog.views import AuthorViewSet, AuthorsCommentView
 from blog.views import PostView
 from blog.views import RecentPostView
 
@@ -23,4 +23,9 @@ urlpatterns = [
         PostView.as_view({"get": "retrieve"}),
         name="post-detail"
     ),
+    path(
+        'author/<int:author_pk>/comment',
+        AuthorsCommentView.as_view(),
+        name="author-comment"
+    )
 ]
